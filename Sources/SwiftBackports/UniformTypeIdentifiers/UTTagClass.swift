@@ -17,7 +17,7 @@ extension Backport<Any> {
      */
     @available(iOS, introduced: 11, deprecated: 14, message: "Use UniformTypeIdentifiers.UTTagClass instead")
     @available(macOS, introduced: 10.5, deprecated: 11, message: "Use UniformTypeIdentifiers.UTTagClass instead")
-    @available(watchOS, introduced: 5, deprecated: 7, message: "Use UniformTypeIdentifiers.UTTagClass instead")
+    @available(watchOS, introduced: 4, deprecated: 7, message: "Use UniformTypeIdentifiers.UTTagClass instead")
     @available(tvOS, introduced: 11, deprecated: 14, message: "Use UniformTypeIdentifiers.UTTagClass instead")
     public struct UTTagClass: RawRepresentable, Codable, Hashable, CustomStringConvertible, CustomDebugStringConvertible, Sendable {
         public var rawValue: String

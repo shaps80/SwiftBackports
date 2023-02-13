@@ -15,7 +15,7 @@ extension Backport<Any> {
      */
     @available(iOS, introduced: 11, deprecated: 14, message: "Use UniformTypeIdentifiers.UTType instead")
     @available(macOS, introduced: 10.5, deprecated: 11, message: "Use UniformTypeIdentifiers.UTType instead")
-    @available(watchOS, introduced: 5, deprecated: 7, message: "Use UniformTypeIdentifiers.UTType instead")
+    @available(watchOS, introduced: 4, deprecated: 7, message: "Use UniformTypeIdentifiers.UTType instead")
     @available(tvOS, introduced: 11, deprecated: 14, message: "Use UniformTypeIdentifiers.UTType instead")
     public struct UTType: Codable, Hashable, CustomStringConvertible, CustomDebugStringConvertible, Sendable {
         /**

@@ -1,9 +1,9 @@
 import Foundation
 
-@available(iOS, deprecated: 15.0)
 @available(macOS, deprecated: 12.0)
-@available(tvOS, deprecated: 15.0)
-@available(watchOS, deprecated: 8.0)
+@available(iOS, introduced: 13, deprecated: 15.0)
+@available(tvOS, introduced: 13, deprecated: 15.0)
+@available(watchOS, introduced: 6, deprecated: 8.0)
 public extension Backport where Wrapped: URLSession {
 
     /// Start a data task with a URL using async/await.
@@ -144,6 +144,7 @@ public extension Backport where Wrapped: URLSession {
 
 }
 
+@available(iOS 13, tvOS 13, watchOS 6, *)
 private actor URLSessionTaskActor {
     weak var task: URLSessionTask?
 
