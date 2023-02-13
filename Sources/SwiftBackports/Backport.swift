@@ -40,8 +40,8 @@ public struct Backport<Wrapped> {
 }
 
 public extension Backport where Wrapped == Any {
-    init(_ content: Wrapped) {
-        self.wrapped = content
+    init(_ wrapped: Wrapped) {
+        self.wrapped = wrapped
     }
 }
 
