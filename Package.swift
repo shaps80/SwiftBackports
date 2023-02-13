@@ -19,5 +19,6 @@ let package = Package(
     ],
     targets: [
         .target(name: "SwiftBackports")
-    ]
+    ],
+    swiftLanguageVersions: [.v5]
 )
