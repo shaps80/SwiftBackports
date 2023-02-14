@@ -4,9 +4,6 @@ extension Never: BackportTransferRepresentation {
     /// The type of the item that's being transferred.
     public typealias Item = Never
 
-    /// The transfer representation for the item.
-    public typealias Body = Never
-
     /// A builder expression that describes the process of importing and exporting an item.
     ///
     /// Combine multiple existing transfer representations

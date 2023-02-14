@@ -5,18 +5,9 @@ import Foundation
 @available(macOS, deprecated: 13)
 @available(watchOS, deprecated: 9)
 extension Never: BackportTransferable {
-
-    /// The type of the representation used to import and export the item.
-    ///
-    /// Swift infers this type from the return value of the
-    /// ``transferRepresentation`` property.
-    public typealias Representation = Never
-
     /// The representation used to import and export the item.
     ///
     /// A ``transferRepresentation`` can contain multiple representations
     /// for different content types.
-    public static var transferRepresentation: Never {
-        fatalError()
-    }
+    public static var transferRepresentation: Never { fatalError() }
 }

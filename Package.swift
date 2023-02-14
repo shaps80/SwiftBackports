@@ -18,7 +18,8 @@ let package = Package(
         ),
     ],
     targets: [
-        .target(name: "SwiftBackports")
+        .target(name: "SwiftBackports"),
+        .testTarget(name: "SwiftBackportsTests", dependencies: ["SwiftBackports"])
     ],
     swiftLanguageVersions: [.v5]
 )

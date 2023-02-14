@@ -9,7 +9,6 @@ public extension Backport<Any> {
     /// Creates a transfer representation by composing existing transfer representations.
     @resultBuilder
     struct TransferRepresentationBuilder<Item> where Item: BackportTransferable {
-
 //        /// Builds an encodable and decodable transfer representation from an expression.
 //        public static func buildExpression<Encoder, Decoder>(_ content: Backport.CodableRepresentation<Item, Encoder, Decoder>) -> Backport.CodableRepresentation<Item, Encoder, Decoder> where Item: Decodable, Item: Encodable, Encoder: TopLevelEncoder, Decoder: TopLevelDecoder, Encoder.Output == Data, Decoder.Input == Data {
 //            Backport.CodableRepresentation(for: Item.self, contentType: Item)
