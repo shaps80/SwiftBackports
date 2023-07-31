@@ -9,6 +9,8 @@ extension Backport<Any> {
         public var message: Text?
         public var asset: Image?
         public var actions: [Action]
+//        public var rules: [AnyTip.Rule]
+        public var options: [BackportTipOption]
 
         public init(_ tip: some BackportTip) {
             id = tip.id
@@ -16,6 +18,7 @@ extension Backport<Any> {
             message = tip.message
             asset = tip.asset
             actions = tip.actions
+            options = tip.options
         }
 
         public init(erasing tip: some BackportTip) {

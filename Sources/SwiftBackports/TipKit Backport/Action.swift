@@ -18,20 +18,13 @@ extension Backport<Any>.Tips {
         /// The identifier for a tip's action.
         ///
         /// If you don't specify a value in the initializer, the system assigns one based on the value of the `index`.
-        public var id: String {
-            if let _id { return _id }
-            if let index {
-                return "@index.\(index)"
-            } else {
-                return ""
-            }
-        }
+        public internal(set) var id: String
 
         public internal(set) var index: Int? = nil
 
-        internal let _id: String?
-        internal let disabled: Bool
-        internal let handler: (@Sendable () -> Void)?
+        public let label: Text
+        public let disabled: Bool
+        public let handler: (@Sendable () -> Void)?
 
         /// Creates a tip action that displays a custom label.
         ///
@@ -41,7 +34,10 @@ extension Backport<Any>.Tips {
         ///   - perform: The function the system calls when the action triggers.
         ///   - label: A view that describes the purpose of the tip action.
         public init(id: String? = nil, disabled: Bool = false, perform handler: (@Sendable () -> Void)? = nil, _ label: @escaping @Sendable () -> Text) {
-            fatalError()
+            self.id = id ?? ""
+            self.disabled = disabled
+            self.handler = handler
+            self.label = label()
         }
 
         /// Creates a tip action that generates its label from a string.
@@ -52,7 +48,10 @@ extension Backport<Any>.Tips {
         ///   - disabled: A condition that indicates whether users can interact with the button. Defaults to `false`.
         ///   - perform: The function the system calls when the action triggers.
         public init(id: String? = nil, title: some StringProtocol, disabled: Bool = false, perform handler: (@Sendable () -> Void)? = nil) {
-            fatalError()
+            self.id = id ?? ""
+            self.disabled = disabled
+            self.handler = handler
+            self.label = Text(title)
         }
     }
 }

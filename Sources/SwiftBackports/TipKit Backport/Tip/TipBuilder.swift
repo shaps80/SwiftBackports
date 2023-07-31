@@ -50,9 +50,19 @@ extension Backport<Any>.Tips {
         }
 
         /// Builds a final set of actions that the tip's view uses.
-        @inlinable public static func buildFinalResult(_ component: [Action]) -> [Action] {
-            #warning("Calculate indexes and update all null-id properties accordingly")
-            return component
+        public static func buildFinalResult(_ component: [Action]) -> [Action] {
+            component.enumerated().map { index, action in
+                var result = Action(
+                    id: action.id == ""
+                    ? "@index.\(index)"
+                    : action.id,
+                    disabled: action.disabled,
+                    perform: action.handler,
+                    { action.label }
+                )
+                result.index = index
+                return result
+            }
         }
     }
 }

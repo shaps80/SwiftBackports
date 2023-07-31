@@ -59,19 +59,58 @@ public protocol BackportTip: Identifiable, Sendable {
 //    /// Use this property to define the rules for when your tips display.
 //    /// If you don't supply a value, this property returns an empty array of type `Rule`.
 //    @Tips.RuleBuilder var rules: [Self.Rule] { get }
-//
-//    /// Customizations for a tip.
-//    @Tips.OptionsBuilder var options: [TipOption] { get }
+
+    /// Customizations for a tip.
+    @Backport<Any>.Tips.OptionsBuilder var options: [Option] { get }
 }
 
 @available(iOS 13, tvOS 13, macOS 10.15, watchOS 6, *)
-public extension BackportTip {
-    var id: String { String(describing: type(of: self)) }
-    var message: Text? { nil }
-    var asset: Image? { nil }
-//    var rules: [Self.Rule] { [] }
-//    var actions: [Self.Action] { [] }
-//    var options: [TipOption] { [] }
+extension BackportTip {
+    /// The current status of a tip based on frequency control and display rules.
+    public var status: Self.Status {
+        fatalError()
+    }
+
+    /// A Boolean value that determines whether to display a tip.
+    ///
+    /// This value returns `true` when a tip's status is `.available`,  and `false` otherwise.
+    public var shouldDisplay: Bool {
+        fatalError()
+    }
+}
+
+@available(iOS 13, tvOS 13, macOS 10.15, watchOS 6, *)
+extension Backport<Any>.Tips.Status {
+    /// The tip is not eligible for display.
+    ///
+    /// Use this value when the tip fails to satisfy one or more rules or the current frequency control blocks it.
+    public static var pending: Self {
+        fatalError()
+    }
+
+    /// The tip is eligible for display.
+    ///
+    /// Use this value when the tip satisfies all its display rules and the frequency control doesn't block.
+    public static var available: Self {
+        fatalError()
+    }
+
+    /// The tip is no longer valid.
+    ///
+    /// Use this value when the user closes the tip view, the tip exceeds its max display count, or you invalidate the tip programmatically.
+    public static var invalidated: Self {
+        fatalError()
+    }
+}
+
+@available(iOS 13, tvOS 13, macOS 10.15, watchOS 6, *)
+extension BackportTip {
+    public var id: String { String(describing: type(of: self)) }
+    public var message: Text? { nil }
+    public var asset: Image? { nil }
+//    public var rules: [Self.Rule] { [] }
+    public var actions: [Self.Action] { [] }
+    public var options: [Self.Option] { [] }
 }
 
 @available(iOS 13, tvOS 13, macOS 10.15, watchOS 6, *)
@@ -90,13 +129,13 @@ extension BackportTip {
 //
 //    /// A repeatable user-defined action.
 //    public typealias Event = Backport<Any>.Tips.Event
-//
-//    /// A type that represents the various customizations that you can make to a tip's behavior.
-//    public typealias Option = BackportTipOption
-//
-//    /// Controls whether a tip obeys the preconfigured frequency control interval.
-//    public typealias IgnoresDisplayFrequency = Backport<Any>.Tips.IgnoresDisplayFrequency
-//
-//    /// Specifies the maximum number of times a tip displays before the system automatically invalidates it.
-//    public typealias MaxDisplayCount = Backport<Any>.Tips.MaxDisplayCount
+
+    /// A type that represents the various customizations that you can make to a tip's behavior.
+    public typealias Option = BackportTipOption
+
+    /// Controls whether a tip obeys the preconfigured frequency control interval.
+    public typealias IgnoresDisplayFrequency = Backport<Any>.Tips.IgnoresDisplayFrequency
+
+    /// Specifies the maximum number of times a tip displays before the system automatically invalidates it.
+    public typealias MaxDisplayCount = Backport<Any>.Tips.MaxDisplayCount
 }
