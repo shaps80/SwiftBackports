@@ -7,7 +7,7 @@ extension Backport<Any> {
         public var id: String
         public var title: Text
         public var message: Text?
-        public var asset: Image?
+        public var image: Image?
         public var actions: [Action]
 //        public var rules: [AnyTip.Rule]
         public var options: [BackportTipOption]
@@ -16,7 +16,7 @@ extension Backport<Any> {
             id = tip.id
             title = tip.title
             message = tip.message
-            asset = tip.asset
+            image = tip.image
             actions = tip.actions
             options = tip.options
         }

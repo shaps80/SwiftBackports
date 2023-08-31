@@ -46,7 +46,7 @@ public protocol BackportTip: Identifiable, Sendable {
     ///
     /// Use this property to display an icon to the left of the `title` and `message` of your tip.
     /// This property is `Optional` and defaults to a value of `nil`.
-    var asset: Image? { get }
+    var image: Image? { get }
 
 //    /// Buttons that help people get started or learn more about your feature.
 //    ///
@@ -107,7 +107,7 @@ extension Backport<Any>.Tips.Status {
 extension BackportTip {
     public var id: String { String(describing: type(of: self)) }
     public var message: Text? { nil }
-    public var asset: Image? { nil }
+    public var image: Image? { nil }
 //    public var rules: [Self.Rule] { [] }
     public var actions: [Self.Action] { [] }
     public var options: [Self.Option] { [] }
