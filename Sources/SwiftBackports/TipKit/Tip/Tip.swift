@@ -1,4 +1,5 @@
 import SwiftUI
+@_implementationOnly import CoreData
 
 /// A type that sets a tip's content, as well as the conditions for when it displays.
 ///
@@ -65,41 +66,48 @@ public protocol BackportTip: Identifiable, Sendable {
 }
 
 @available(iOS 13, tvOS 13, macOS 10.15, watchOS 6, *)
+private extension BackportTip {
+    var context: NSManagedObjectContext {
+        Tips.store.viewContext
+    }
+}
+
+@available(iOS 13, tvOS 13, macOS 10.15, watchOS 6, *)
 extension BackportTip {
     /// The current status of a tip based on frequency control and display rules.
-    public var status: Self.Status {
-        fatalError()
+    public var status: Status {
+        let model = coreTip
+
+        if model.info.isArchived { return .invalidated(.init(rawValue: model.invalidationReason)) }
+        if model.info.ignoresDisplayFrequency { return .available }
+        if model.info.displayCount < model.info.maxDisplayCount { return .available }
+
+        return .pending
     }
 
     /// A Boolean value that determines whether to display a tip.
     ///
     /// This value returns `true` when a tip's status is `.available`,  and `false` otherwise.
     public var shouldDisplay: Bool {
-        fatalError()
-    }
-}
+        guard Tips.configured else { return false }
+        let model = coreTip
 
-@available(iOS 13, tvOS 13, macOS 10.15, watchOS 6, *)
-extension Backport<Any>.Tips.Status {
-    /// The tip is not eligible for display.
-    ///
-    /// Use this value when the tip fails to satisfy one or more rules or the current frequency control blocks it.
-    public static var pending: Self {
-        fatalError()
-    }
+        let status = status
+        
+        if status == .available {
+            let date = Date()
+            model.lastDisplayed = date
+            model.info.displayCount += 1
+            model.info.displayDates.append(date)
+            context.saveImmediately()
+        } else {
+            if model.info.displayCount >= model.info.maxDisplayCount && model.statusValue == 1 {
+                model.statusValue = 2
+                invalidate(reason: .displayCountExceeded)
+            }
+        }
 
-    /// The tip is eligible for display.
-    ///
-    /// Use this value when the tip satisfies all its display rules and the frequency control doesn't block.
-    public static var available: Self {
-        fatalError()
-    }
-
-    /// The tip is no longer valid.
-    ///
-    /// Use this value when the user closes the tip view, the tip exceeds its max display count, or you invalidate the tip programmatically.
-    public static var invalidated: Self {
-        fatalError()
+        return status == .available
     }
 }
 

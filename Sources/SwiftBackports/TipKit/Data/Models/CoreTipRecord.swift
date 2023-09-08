@@ -1,28 +1,7 @@
-import CoreData
-
-/*
- {
-    bundleID = "com.benkau.TipKitDemo.TipKitDemo";
-    cloudSyncEnabled = 1;
-    displayCount = 2;
-    displayDates =     (
-        "2023-07-27 20:28:18 +0000",
-        "2023-07-27 20:28:24 +0000"
-    );
-    ignoresDisplayFrequency = 0;
-    isArchived = 0;
-    maxDisplayCount = 9223372036854775807;
-}
- */
+@_implementationOnly import CoreData
 
 struct TipInfo: Codable {
     var bundleId: String? = Bundle.main.bundleIdentifier
-
-    /*
-     let iso = DateFormatter()
-     iso.timeZone = TimeZone(abbreviation: "UTC")
-     iso.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
-     */
     var displayDates: [Date] = []
     var displayCount: Int = 0
     var isArchived: Bool = false
@@ -54,7 +33,12 @@ internal final class CoreTipRecord: NSManagedObject, Identifiable {
 extension CoreTipRecord {
     var info: TipInfo {
         get {
+            let iso = DateFormatter()
+            iso.timeZone = TimeZone(abbreviation: "UTC")
+            iso.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
             let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .formatted(iso)
+            
             guard
                 let tipInfo,
                 let decoded = try? decoder.decode(TipInfo.self, from: tipInfo)
@@ -62,7 +46,13 @@ extension CoreTipRecord {
             return decoded
         } set {
             do {
+                let iso = DateFormatter()
+                iso.timeZone = TimeZone(abbreviation: "UTC")
+                iso.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+
                 let encoder = JSONEncoder()
+                encoder.dateEncodingStrategy = .formatted(iso)
+                encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
                 tipInfo = try encoder.encode(newValue)
             } catch {
                 print(error)
@@ -85,4 +75,38 @@ extension CoreTipRecord {
 //
 //    @objc(removeAttachments:)
 //    @NSManaged public func removeFromAttachments(_ values: NSSet)
+}
+
+extension CoreTipRecord {
+    static let entity: NSEntityDescription = {
+        let entity = NSEntityDescription()
+        entity.name = "CoreTipRecord"
+        entity.managedObjectClassName = "CoreTipRecord"
+
+        let id = NSAttributeDescription()
+        id.attributeType = .stringAttributeType
+        id.name = "id"
+
+        let lastDisplayed = NSAttributeDescription()
+        lastDisplayed.attributeType = .dateAttributeType
+        lastDisplayed.name = "lastDisplayed"
+
+        let reason = NSAttributeDescription()
+        reason.attributeType = .integer16AttributeType
+        reason.name = "invalidationReason"
+
+        let status = NSAttributeDescription()
+        status.attributeType = .integer16AttributeType
+        status.name = "statusValue"
+
+        let info = NSAttributeDescription()
+        info.attributeType = .binaryDataAttributeType
+        info.name = "tipInfo"
+
+        entity.properties = [
+            id, lastDisplayed, reason, status, info
+        ]
+
+        return entity
+    }()
 }

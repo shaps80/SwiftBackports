@@ -72,7 +72,7 @@ extension Backport<Any>.Tips.ConfigurationOption {
         /// The default location for persisting tips, which is generally your application's support directory.
         public static var applicationDefault: DatastoreLocation {
             let url = try! FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-            return .init(url: url.appendingPathComponent(".tipsbackport"))
+            return .init(url: url)
         }
 
         /// DatastoreLocation for persisting tips in a group container.

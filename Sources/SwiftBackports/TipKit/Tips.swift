@@ -1,4 +1,4 @@
-import SwiftUI
+@_implementationOnly import CoreData
 
 @available(iOS 13, tvOS 13, macOS 10.15, watchOS 6, *)
 extension Backport<Any> {
@@ -7,8 +7,12 @@ extension Backport<Any> {
 
 @available(iOS 13, tvOS 13, macOS 10.15, watchOS 6, *)
 extension Backport<Any>.Tips {
-    private static var configured: Bool = false
+    internal static var configured: Bool {
+        !store.persistentStoreCoordinator.persistentStores.isEmpty
+    }
+
     private static var reset: Bool = false
+    internal static let store: PersistentContainer = .shared
 
     /// Called at app startup to load and configure the persistent state of all tips in your app:
     ///
@@ -37,28 +41,24 @@ extension Backport<Any>.Tips {
 
         var options = ConfigurationOption()
         configuration.forEach { $0.apply(&options) }
+        let url = options.datastoreLocation.url.appendingPathComponent(".tipsbackport")
 
         if reset {
-            if FileManager.default.fileExists(atPath: options.datastoreLocation.url.path) {
-                try FileManager.default.removeItem(at: options.datastoreLocation.url)
+            if FileManager.default.fileExists(atPath: url.path) {
+                store.destroyPersistentStore(at: url)
+                try FileManager.default.removeItem(at: url)
             }
             reset = false
         }
 
         let manager = FileManager.default
-        if !manager.fileExists(atPath: options.datastoreLocation.url.path) {
-            try manager.createDirectory(at: options.datastoreLocation.url, withIntermediateDirectories: true)
+        if !manager.fileExists(atPath: url.path) {
+            try manager.createDirectory(at: url, withIntermediateDirectories: true)
         }
 
-#warning("Prepare models")
-        /*
-         This would include the following:
-
-         - prepare the model (tips-store)
-         - load the persistent store
-         */
-
-        configured = true
+        Task {
+            try await store.prepare(at: url)
+        }
     }
 }
 
