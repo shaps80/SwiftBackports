@@ -17,6 +17,9 @@ let package = Package(
             targets: ["SwiftBackports"]
         ),
     ],
+    dependencies: [
+        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0")
+    ],
     targets: [
         .target(name: "SwiftBackports"),
         .testTarget(name: "SwiftBackportsTests", dependencies: ["SwiftBackports"])
