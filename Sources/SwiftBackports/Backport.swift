@@ -28,13 +28,13 @@ import ObjectiveC
 ///         }
 ///     }
 ///
-public struct Backport<Wrapped> {
+public struct Backport<Wrapped>: @unchecked Sendable {
     /// The underlying content this backport represents.
     public let wrapped: Wrapped
 
     /// Initializes a new Backport for the specified content.
     /// - Parameter content: The content (type) that's being backported
-    public init(_ wrapped: Wrapped) {
+    nonisolated public init(_ wrapped: Wrapped) {
         self.wrapped = wrapped
     }
 }
