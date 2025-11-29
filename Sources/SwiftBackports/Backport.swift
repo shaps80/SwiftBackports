@@ -34,7 +34,7 @@ public struct Backport<Wrapped>: @unchecked Sendable {
 
     /// Initializes a new Backport for the specified content.
     /// - Parameter content: The content (type) that's being backported
-    nonisolated public init(_ wrapped: Wrapped) {
+    public init(_ wrapped: Wrapped) {
         self.wrapped = wrapped
     }
 }
