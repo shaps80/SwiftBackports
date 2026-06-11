@@ -1,6 +1,3 @@
-import SwiftUI
-import ObjectiveC
-
 /// Provides a convenient method for backporting API,
 /// including types, functions, properties, property wrappers and more.
 ///
@@ -45,7 +42,10 @@ public extension Backport where Wrapped == Any {
     }
 }
 
+#if canImport(ObjectiveC)
+import ObjectiveC
 public extension NSObjectProtocol {
     /// Wraps an `NSObject` that can be extended to provide backport functionality.
     var backport: Backport<Self> { .init(self) }
 }
+#endif
