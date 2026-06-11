@@ -1,4 +1,4 @@
-// swift-tools-version: 5.7
+// swift-tools-version: 6.0
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -6,10 +6,11 @@ import PackageDescription
 let package = Package(
     name: "SwiftBackports",
     platforms: [
-        .iOS(.v11),
+        .iOS(.v12),
+        .tvOS(.v12),
         .macOS(.v10_15),
-        .tvOS(.v11),
-        .watchOS(.v4)
+        .watchOS(.v5),
+        .visionOS(.v1)
     ],
     products: [
         .library(
@@ -23,6 +24,5 @@ let package = Package(
     targets: [
         .target(name: "SwiftBackports"),
         .testTarget(name: "SwiftBackportsTests", dependencies: ["SwiftBackports"])
-    ],
-    swiftLanguageVersions: [.v5]
+    ]
 )

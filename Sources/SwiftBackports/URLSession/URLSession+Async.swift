@@ -22,6 +22,7 @@ public extension Backport where Wrapped: URLSession {
     /// - throws: Any error encountered while performing the data task.
     func data(for request: URLRequest) async throws -> (Data, URLResponse) {
         let sessionTask = URLSessionTaskActor()
+        let wrapped = wrapped
 
         return try await withTaskCancellationHandler {
             try await withCheckedThrowingContinuation { continuation in
@@ -44,6 +45,8 @@ public extension Backport where Wrapped: URLSession {
 
     func upload(for request: URLRequest, fromFile fileURL: URL) async throws -> (Data, URLResponse) {
         let sessionTask = URLSessionTaskActor()
+        let wrapped = wrapped
+
         return try await withTaskCancellationHandler {
             try await withCheckedThrowingContinuation { continuation in
                 Task {
@@ -64,6 +67,8 @@ public extension Backport where Wrapped: URLSession {
 
     func upload(for request: URLRequest, from bodyData: Data) async throws -> (Data, URLResponse) {
         let sessionTask = URLSessionTaskActor()
+        let wrapped = wrapped
+
         return try await withTaskCancellationHandler {
             try await withCheckedThrowingContinuation { continuation in
                 Task {
@@ -84,6 +89,8 @@ public extension Backport where Wrapped: URLSession {
 
     func download(for request: URLRequest) async throws -> (URL, URLResponse) {
         let sessionTask = URLSessionTaskActor()
+        let wrapped = wrapped
+
         return try await withTaskCancellationHandler {
             try await withCheckedThrowingContinuation { continuation in
                 Task {
@@ -104,6 +111,8 @@ public extension Backport where Wrapped: URLSession {
 
     func download(from url: URL) async throws -> (URL, URLResponse) {
         let sessionTask = URLSessionTaskActor()
+        let wrapped = wrapped
+
         return try await withTaskCancellationHandler {
             try await withCheckedThrowingContinuation { continuation in
                 Task {
@@ -124,6 +133,8 @@ public extension Backport where Wrapped: URLSession {
 
     func download(resumeFrom resumeData: Data) async throws -> (URL, URLResponse) {
         let sessionTask = URLSessionTaskActor()
+        let wrapped = wrapped
+        
         return try await withTaskCancellationHandler {
             try await withCheckedThrowingContinuation { continuation in
                 Task {

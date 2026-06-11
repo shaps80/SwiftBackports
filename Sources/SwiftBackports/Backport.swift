@@ -28,7 +28,7 @@ import ObjectiveC
 ///         }
 ///     }
 ///
-public struct Backport<Wrapped>: @unchecked Sendable {
+public struct Backport<Wrapped> {
     /// The underlying content this backport represents.
     public let wrapped: Wrapped
 

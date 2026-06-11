@@ -1,6 +1,10 @@
 import Foundation
 import CoreServices
 
+@available(iOS, introduced: 11, deprecated: 14, message: "Use UniformTypeIdentifiers.UTType instead")
+@available(macOS, introduced: 10.5, deprecated: 11, message: "Use UniformTypeIdentifiers.UTType instead")
+@available(watchOS, introduced: 4, deprecated: 7, message: "Use UniformTypeIdentifiers.UTType instead")
+@available(tvOS, introduced: 11, deprecated: 14, message: "Use UniformTypeIdentifiers.UTType instead")
 public extension Backport<Any>.UTType {
     /**
      A generic base type for most things (files, directories.)
